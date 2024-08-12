@@ -1,6 +1,7 @@
 import word_manager
 from colorama import Back
 import time
+import os
 
 
 def wordle():
@@ -10,8 +11,16 @@ def wordle():
     chosen_word = word_manager.pick_random_word(word_list)
     # print(chosen_word)
 
-    for attempt in range(6):
-        print(f"Attempt {attempt + 1}\n")
+    list_of_colored_letters_lists = []
+
+    for attempt in range(1, 6+1):
+        os.system("cls")
+        print(f"Attempt {attempt}/6\n")
+
+        for i in range(len(list_of_colored_letters_lists)):
+            for letter in list_of_colored_letters_lists[i]:
+                print(letter, end="")
+            print()
 
         time.sleep(1)
 
@@ -60,7 +69,6 @@ def wordle():
                     continue
 
                 # Letter might be in word
-                bl = True
                 for j in range(5):
                     # Letter is in word
 
@@ -69,21 +77,23 @@ def wordle():
                         if j not in correct_indexes:
                             correct_indexes.append(j)
                             colored_letter_list.append(f'{Back.YELLOW}{user[i]}')
-                            bl = False
                             break
+                        else:
+                            colored_letter_list.append(f'{Back.RESET}{user[i]}')
+
 
                 # Letter is incorrect
                 if index_dict[i] == -1:
                     colored_letter_list.append(f'{Back.RESET}{user[i]}')
 
-                elif bl:
-                    colored_letter_list.append(f'{Back.YELLOW}{user[i]}')
 
             colored_letter_list.append(Back.RESET)
 
             # Print the colors
             for letter in colored_letter_list:
                 print(letter, end="")
+
+            list_of_colored_letters_lists.append(colored_letter_list)
             print()
 
         print()
@@ -93,4 +103,7 @@ def wordle():
 
 
 if __name__ == '__main__':
-    wordle()
+    while True:
+        os.system("pause")
+        os.system("cls")
+        wordle()
