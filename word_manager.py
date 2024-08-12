@@ -1,21 +1,14 @@
-from urllib import request
+import requests
 from random import randint
 
 
 def get_word_list() -> list[str]:
-    data = request.urlopen(
-        'https://gist.githubusercontent.com/shmookey/b28e342e1b1756c4700f42f17102c2ff/raw/ed4c33a168027aa1e448c579c8383fe20a3a6225/WORDS'
-    )
+    data = requests.get(
+        "https://gist.githubusercontent.com/shmookey/b28e342e1b1756c4700f42f17102c2ff/raw/ed4c33a168027aa1e448c579c8383fe20a3a6225/WORDS")
 
-    word_list = []
+    text = data.text.splitlines()
 
-    for word in data:
-        new_word = str(word.strip())
-        new_word = new_word.removeprefix('b')
-        new_word = new_word.replace("'", "")
-        word_list.append(new_word)
-
-    return word_list
+    return text
 
 
 def pick_random_word(word_list=None) -> str:
